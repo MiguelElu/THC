@@ -1,10 +1,11 @@
 import java.sql.*;
+import java.util.Scanner;
 
 public class SQL {
     private static String url = "jdbc:mysql://localhost:3306/thc";
     private static String username = "test";
     private static String password = "test";
-
+    static Scanner sc = new Scanner(System.in);
     public static Connection conectar() throws SQLException {
         Connection conn = null;
         try {
@@ -121,6 +122,43 @@ public class SQL {
 
     }
 
+    public static void agregarUsuario() {
+        Connection cn = null;
+        Statement st = null;
 
+        System.out.println("Ingrese Usuario:");
+        String usuario = sc.nextLine();
+        System.out.println("Ingrese Contraseña:");
+        String pass = sc.nextLine();
+        try {
+            cn = SQL.conectar();
+            st = cn.createStatement();
+            String sql = " insert into thc.users (Name,Pass)" +
+                    " values (?,?)";
+            PreparedStatement preparedStmt = cn.prepareStatement(sql);
+            preparedStmt.setString(1, usuario);
+            preparedStmt.setString(2, pass);
+          preparedStmt.execute();
+
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+
+                if (st != null) ;
+                {
+                    st.close();
+                }
+                if (cn != null) ;
+                {
+                    cn.close();
+                }
+            } catch (Exception e2) {
+                e2.printStackTrace();
+            }
+        }
+
+    }
 
 }
