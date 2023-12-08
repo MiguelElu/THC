@@ -27,31 +27,49 @@ public class Main {
     }
 
     public static void menu() {
+        boolean on = true;
       System.out.println("Porfavor tecle alguno de los comandos para ejecutar la accion: agregar usuario, agregar paciente, " +
               "agregar registro, " +
-              "modificar paciente, modificar registro, desplegar pacientes, desplegar registros");
-      String res = sc.nextLine();
-        switch (res){
-            case "agregar usuario":
-               SQL.agregarUsuario();
-               break;
-            case "agregar paciente":
-               SQL.agregarPaciente();
-                break;
-            case "agregar registro":
-                SQL.agregarRegistro();
-                break;
-            case "desplegar pacientes":
-                SQL.buscarPaciente();
-                break;
-            case "desplegar registros":
-                SQL.buscarRegistro();
-                break;
-            case "modificar usuario":
-                SQL.modificarUsuario();
-                break;
+              " modificar usuario, modificar paciente, modificar nota, desplegar pacientes, desplegar registros o cerrar session");
+      while (on) {
+          String res = sc.nextLine();
+          switch (res) {
+              case "agregar usuario":
+                  SQL.agregarUsuario();
+                  break;
+              case "agregar paciente":
+                  SQL.agregarPaciente();
+                  break;
+              case "agregar registro":
+                  SQL.agregarRegistro();
+                  break;
+              case "desplegar pacientes":
+                  SQL.buscarPaciente();
+                  break;
+              case "desplegar registros":
+                  SQL.buscarRegistro();
+                  break;
+              case "modificar usuario":
+                  SQL.modificarUsuario();
+                  break;
+              case "modificar paciente":
+                  SQL.modificarPaciente();
+                  break;
+              case "modificar nota":
+                  SQL.modificarRegistro();
+                  break;
+              case "cerrar session":
+                  on = false;
+                  break;
+               default:
+                   System.out.println("Error de comando");
+                 break;
 
-        }
+          }
+          if (on) {
+              System.out.println("Siguiente instruccion");
+          }
+      }
 
     }
 }

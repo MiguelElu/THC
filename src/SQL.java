@@ -75,7 +75,7 @@ public class SQL {
         String data[][] = new String[7][100];
 
         System.out.println("Nombre a buscar:");
-        String nombre = sc.nextLine();
+        String nombre = "%"+sc.nextLine()+"%";
         int i = 0;
         try {
             cn = SQL.conectar();
@@ -96,8 +96,15 @@ public class SQL {
                     i++;
                 } while (rs.next());
                     data[0][6] = String.valueOf(i);
+                for (int i2=0; i2 <Integer.parseInt(data[0][6]); i2++){
+                    System.out.println();
+                    for (int j=0; j<6; j++){
+                        System.out.print(data[i2][j]+"  ");
+                    }
+                }
 
-            }
+
+            } else { System.out.print("Sin Resultados");}
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -118,14 +125,8 @@ public class SQL {
                 e2.printStackTrace();
             }
         }
-        for (int i2=0; i2 <Integer.parseInt(data[0][6]); i2++){
-            System.out.println();
-            for (int j=0; j<6; j++){
-                System.out.print(data[i2][j]+"  ");
-            }
-        }
 
-
+        System.out.println();
     }
 
     public static void agregarUsuario() {
@@ -288,7 +289,14 @@ public class SQL {
                 } while (rs.next());
                 data[0][4] = String.valueOf(i);
 
-            }
+                for (int i2=0; i2 <Integer.parseInt(data[0][4]); i2++){
+                    System.out.println();
+                    for (int j=0; j<4; j++){
+                        System.out.print(data[i2][j]+"  ");
+                    }
+                }
+
+            } else {System.out.print(  "Sin Registros");}
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -309,13 +317,8 @@ public class SQL {
                 e2.printStackTrace();
             }
         }
-        for (int i2=0; i2 <Integer.parseInt(data[0][4]); i2++){
-            System.out.println();
-            for (int j=0; j<4; j++){
-                System.out.print(data[i2][j]+"  ");
-            }
-        }
 
+        System.out.println();
 
     }
 
@@ -336,6 +339,99 @@ public class SQL {
             PreparedStatement preparedStmt = cn.prepareStatement(sql);
             preparedStmt.setString(1, pass);
             preparedStmt.setString(2, usuario);
+            preparedStmt.execute();
+
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+
+                if (st != null) ;
+                {
+                    st.close();
+                }
+                if (cn != null) ;
+                {
+                    cn.close();
+                }
+            } catch (Exception e2) {
+                e2.printStackTrace();
+            }
+        }
+
+    }
+
+    public static void modificarPaciente() {
+        Connection cn = null;
+        Statement st = null;
+
+        System.out.println("Ingrese Id del paciente a modificar:");
+        int id = Integer.parseInt(sc.nextLine());
+        System.out.println("Ingrese Nombre:");
+        String nombre = sc.nextLine();
+        System.out.println("Ingrese raza:");
+        String raza = sc.nextLine();
+        System.out.println("Ingrese Dueño:");
+        String dueño = sc.nextLine();
+        System.out.println("Ingrese Fecha de nacimiento:");
+        String fecha = sc.nextLine();
+        System.out.println("Ingrese Peso:");
+        Float peso =Float.valueOf(sc.nextLine());
+        try {
+            cn = SQL.conectar();
+            st = cn.createStatement();
+            String sql = " update thc.pacientes " +
+                    "SET nombre = ?,raza = ?, dueño = ?,fdenacimiento = ?, peso = ?" +
+                    " where id = ?";
+            PreparedStatement preparedStmt = cn.prepareStatement(sql);
+            preparedStmt.setString(1, nombre);
+            preparedStmt.setString(2, raza);
+            preparedStmt.setString(3, dueño);
+            preparedStmt.setString(4, fecha);
+            preparedStmt.setFloat(5, peso);
+            preparedStmt.setInt(6, id);
+            preparedStmt.execute();
+
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+
+                if (st != null) ;
+                {
+                    st.close();
+                }
+                if (cn != null) ;
+                {
+                    cn.close();
+                }
+            } catch (Exception e2) {
+                e2.printStackTrace();
+            }
+        }
+
+    }
+
+    public static void modificarRegistro() {
+        Connection cn = null;
+        Statement st = null;
+
+        System.out.println("Ingrese Id del registro a modificar");
+        int id = Integer.parseInt(sc.nextLine());
+        System.out.println("Ingrese nueva Nota:");
+        String nota = sc.nextLine();
+
+        try {
+            cn = SQL.conectar();
+            st = cn.createStatement();
+            String sql = " update thc.registros " +
+                    "SET nota = ?" +
+                    " where idnota = ?";
+            PreparedStatement preparedStmt = cn.prepareStatement(sql);
+            preparedStmt.setString(1, nota);
+            preparedStmt.setInt(2, id);
             preparedStmt.execute();
 
 
