@@ -1,5 +1,8 @@
 import java.sql.*;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
+
 
 public class SQL {
     private static String url = "jdbc:mysql://localhost:3306/thc";
@@ -139,6 +142,98 @@ public class SQL {
             preparedStmt.setString(1, usuario);
             preparedStmt.setString(2, pass);
           preparedStmt.execute();
+
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+
+                if (st != null) ;
+                {
+                    st.close();
+                }
+                if (cn != null) ;
+                {
+                    cn.close();
+                }
+            } catch (Exception e2) {
+                e2.printStackTrace();
+            }
+        }
+
+    }
+
+    public static void agregarPaciente() {
+        Connection cn = null;
+        Statement st = null;
+
+        System.out.println("Ingrese Nombre:");
+        String nombre = sc.nextLine();
+        System.out.println("Ingrese raza:");
+        String raza = sc.nextLine();
+        System.out.println("Ingrese Dueño:");
+        String dueño = sc.nextLine();
+        System.out.println("Ingrese Fecha de nacimiento:");
+        String fecha = sc.nextLine();
+        System.out.println("Ingrese Peso:");
+        Float peso =Float.valueOf(sc.nextLine());
+        try {
+            cn = SQL.conectar();
+            st = cn.createStatement();
+            String sql = " insert into thc.pacientes ( nombre, raza, dueño, fdenacimiento, peso)" +
+                    " values (?,?,?,?,?)";
+            PreparedStatement preparedStmt = cn.prepareStatement(sql);
+            preparedStmt.setString(1, nombre);
+            preparedStmt.setString(2, raza);
+            preparedStmt.setString(3, dueño);
+            preparedStmt.setString(4, fecha);
+            preparedStmt.setFloat(5, peso);
+            preparedStmt.execute();
+
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+
+                if (st != null) ;
+                {
+                    st.close();
+                }
+                if (cn != null) ;
+                {
+                    cn.close();
+                }
+            } catch (Exception e2) {
+                e2.printStackTrace();
+            }
+        }
+
+    }
+
+    public static void agregarRegistro() {
+        Connection cn = null;
+        Statement st = null;
+
+        System.out.println("Ingrese ID del paciente:");
+        int id = Integer.parseInt(sc.nextLine());
+        System.out.println("Ingrese su nota:");
+        String nota = sc.nextLine();
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        LocalDateTime now = LocalDateTime.now();
+
+        try {
+            cn = SQL.conectar();
+            st = cn.createStatement();
+            String sql = " insert into thc.registros ( idpaciente,  nota, fecha)" +
+                    " values (?,?,?)";
+            PreparedStatement preparedStmt = cn.prepareStatement(sql);
+            preparedStmt.setInt(1, id);
+            preparedStmt.setString(2, nota);
+            preparedStmt.setString(3, dtf.format(now));
+
+            preparedStmt.execute();
 
 
         } catch (SQLException e) {
