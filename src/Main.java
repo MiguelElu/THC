@@ -41,6 +41,15 @@ public class Main {
             case "agregar registro":
                 SQL.agregarRegistro();
                 break;
+            case "desplegar pacientes":
+                SQL.buscarPaciente();
+                break;
+            case "desplegar registros":
+                SQL.buscarRegistro();
+                break;
+            case "modificar usuario":
+                SQL.modificarUsuario();
+                break;
 
         }
 

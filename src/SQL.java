@@ -67,12 +67,15 @@ public class SQL {
         }
         return data;
     }
-    public static void buscarPaciente(String nombre){
+    public static void buscarPaciente(){
 
         Connection cn = null;
         Statement st = null;
         ResultSet rs = null;
         String data[][] = new String[7][100];
+
+        System.out.println("Nombre a buscar:");
+        String nombre = sc.nextLine();
         int i = 0;
         try {
             cn = SQL.conectar();
@@ -233,6 +236,106 @@ public class SQL {
             preparedStmt.setString(2, nota);
             preparedStmt.setString(3, dtf.format(now));
 
+            preparedStmt.execute();
+
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+
+                if (st != null) ;
+                {
+                    st.close();
+                }
+                if (cn != null) ;
+                {
+                    cn.close();
+                }
+            } catch (Exception e2) {
+                e2.printStackTrace();
+            }
+        }
+
+    }
+
+    public static void buscarRegistro(){
+
+        Connection cn = null;
+        Statement st = null;
+        ResultSet rs = null;
+        String data[][] = new String[4][100];
+
+        System.out.println("Id a buscar:");
+        int id = Integer.parseInt(sc.nextLine());
+        int i = 0;
+        try {
+            cn = SQL.conectar();
+            st = cn.createStatement();
+            String sql = " Select * from thc.registros where idpaciente = ?";
+            PreparedStatement preparedStmt = cn.prepareStatement(sql);
+            preparedStmt.setInt(1, id);
+            rs = preparedStmt.executeQuery();
+
+            if (rs.next() == true) {
+                do {
+                    data[i][0] = String.valueOf(rs.getInt(1));
+                    data[i][1] = String.valueOf(rs.getInt(2));
+                    data[i][2] = rs.getString(3);
+                    data[i][3] = rs.getString(4);
+
+                    i++;
+                } while (rs.next());
+                data[0][4] = String.valueOf(i);
+
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (rs != null) ;
+                {
+                    rs.close();
+                }
+                if (st != null) ;
+                {
+                    st.close();
+                }
+                if (cn != null) ;
+                {
+                    cn.close();
+                }
+            } catch (Exception e2) {
+                e2.printStackTrace();
+            }
+        }
+        for (int i2=0; i2 <Integer.parseInt(data[0][4]); i2++){
+            System.out.println();
+            for (int j=0; j<4; j++){
+                System.out.print(data[i2][j]+"  ");
+            }
+        }
+
+
+    }
+
+    public static void modificarUsuario() {
+        Connection cn = null;
+        Statement st = null;
+
+        System.out.println("Ingrese Usuario:");
+        String usuario = sc.nextLine();
+        System.out.println("Ingrese Contraseña nueva:");
+        String pass = sc.nextLine();
+        try {
+            cn = SQL.conectar();
+            st = cn.createStatement();
+            String sql = " update thc.users " +
+                    "SET Pass = ?" +
+                    " where Name like ?";
+            PreparedStatement preparedStmt = cn.prepareStatement(sql);
+            preparedStmt.setString(1, pass);
+            preparedStmt.setString(2, usuario);
             preparedStmt.execute();
 
 
