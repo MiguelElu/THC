@@ -5,6 +5,7 @@ public class Main {
 
 
        System.out.println(iniciarsession());
+       menu();
 
 
     }
@@ -23,5 +24,19 @@ public class Main {
         else {
             return false;
         }
+    }
+
+    public static void menu() {
+      System.out.println("Porfavor tecle alguno de los comandos para ejecutar la accion: agregar usuario, agregar paciente, " +
+              "agregar registro, " +
+              "modificar paciente, modificar registro, desplegar pacientes, desplegar registros");
+      String res = sc.nextLine();
+        switch (res){
+            case "agregar usuario":
+               SQL.agregarUsuario();
+               break;
+
+        }
+
     }
 }
