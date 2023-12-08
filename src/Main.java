@@ -35,6 +35,12 @@ public class Main {
             case "agregar usuario":
                SQL.agregarUsuario();
                break;
+            case "agregar paciente":
+               SQL.agregarPaciente();
+                break;
+            case "agregar registro":
+                SQL.agregarRegistro();
+                break;
 
         }
 
